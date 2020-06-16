@@ -1,59 +1,57 @@
-var myNodelist = document.getElementsByTagName("LI");
-var li = document.createElement("li");
-var i;
-for (i = 0; i < myNodelist.length; i++) {
-    var span = document.createElement ("SPAN");
-    var txt = document.createTextNode ("\u00D7");
-    span.className = "close";
-    span.appendChild(txt);
-    myNodelist[i].appendChild(span);
+const newTask = document.querySelector("#myInput");
+const submitTask = document.querySelector(".addBtn");
+const taskCollection = document.querySelector("#myUL");
+const clearBtn = document.querySelector("#clear-list");
+
+//CreatedElement
+
+
+
+
+//Event Listeners
+
+submitTask.addEventListener("click", function() {
+  if (newTask.value === "") {
+    alert("Write Something");
+  } else {
+    //Create Li Element and append Task
+    let li = document.createElement("li");
+    let taskText = document.createTextNode(newTask.value);
+    li.appendChild(taskText);
+
+    //Create Close Eleent and Append to Li
+    let close = document.createElement("SPAN");
+    let txt = document.createTextNode("\u00D7");
+    close.className = "close";
+    close.appendChild(txt);
+    li.appendChild(close);
+    
+    //Append Li to Ul
+    taskCollection.appendChild(li);
+    newTask.value = "";
+  }
+});
+
+taskCollection.addEventListener("click", function(e) {
+  if(e.target.className === "close") {
+    if (confirm("Are You Sure?")) {
+        e.target.parentElement.remove();
+  }
 }
-var close = document.getElementsByClassName("close")
-var i;
-for (i = 0; i < close.length; i++) {
-    close[i].onclick = function () {
-        var div = this.parentElement;
-        div.style.display ="none";
+});
+
+taskCollection.addEventListener("click", function(e) {
+    if(e.target.tagName === "LI") {
+      if (confirm("Are You Sure?")) {
+          console.log("Hello World")
+          e.target.classList.toggle('checked');
     }
-}
-var list = document.querySelector('ul')
-list.addEventListener('click',function(ev){
-    if (ev.target.tagName === 'LI'){
-        ev.target. classList.toggle('checked');
-    }
-} , false);
+  }
+  });
 
-function newElement() {
-    console.log("hello World");
-    var inputValue = document.getElementById("myInput").value;
-    var t = document.createTextNode(inputValue);
-    li.appendChild(t);
-    if (inputValue = ''){
-        console.log("hello wolrd")
-        alert("You must write something!");
-
-    } else{
-        console.log("Hello");
-                document.getElementById("myUL").appendChild(li);
-        inputValue = "";
-    }
-}
-
-document.getElementById("myInput").value = " ";
-
-var span = document.createElement("SPAN");
-var txt = document.createTextNode("\u00D7");
-span.className = "close";
-span.appendChild(txt);
-li.appendChild(span);
-
-for (i = 0; i < close.length; i++) {
-    close[i].onclick = function() {
-        var div = this.parentElement;
-        div.style.display = "none";
-    }
-}
-function removeAll(){
-    var Ist = document.getElementsByTagName("ul");
-    Ist[0].innerHTML = "" ;
-}
+  clearBtn.addEventListener("click", function() {
+      if(confirm("Do You Want TO Delete All")) {
+        taskCollection.innerHTML = "" 
+      }
+      
+  });
